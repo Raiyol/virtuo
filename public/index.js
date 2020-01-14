@@ -229,7 +229,7 @@ for(var i = 0; i < actors.length; i++)
 {
   for(var j = 0; j < rentals.length; j++)
   {
-    if(actors[i].rentalId = rentals[j].carId)
+    if(actors[i].rentalId == rentals[j].id)
     {
       actors[i].payment[0].amount = rentals[j].price;
       actors[i].payment[1].amount = rentals[j].price * 0.7;
