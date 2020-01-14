@@ -73,6 +73,7 @@ const rentals = [{
   'carId': '4afcc3a2-bbf4-44e8-b739-0179a6cd8b7d',
   'pickupDate': '2019-12-01',
   'returnDate': '2019-12-15',
+  'distance' : 1000,
   'options': {
     'deductibleReduction': true
   },
@@ -156,6 +157,87 @@ const actors = [{
     'amount': 0
   }]
 }];
+
+// Step 1
+function whichCar(id)
+{
+  for(var i = 0; i < cars.length; i++)
+  {
+    if(cars[i].id == id)
+    {
+      return cars[i];
+    }
+  }
+}
+
+for(var i = 0; i < rentals.length; i++)
+{
+  var day = new Date(rentals[i].returnDate) - new Date(rentals[i].pickupDate);
+  day /= 24*60*60*1000;
+  day += 1;
+  rentals[i].price = whichCar(rentals[i].carId).pricePerKm * rentals[i].distance + day * whichCar(rentals[i].carId).pricePerDay;
+  console.log(rentals[i].price)
+}
+
+// Step 2
+for(var i = 0; i < rentals.length; i++)
+{
+  var day = new Date(rentals[i].returnDate) - new Date(rentals[i].pickupDate);
+  day /= 24*60*60*1000;
+  day += 1;
+  if(day > 10)
+  {
+    rentals[i].price *= 0.5;
+  }
+  else if(day > 4)
+  {
+    rentals[i].price *= 0.7;
+  }
+  else if(day > 1)
+  {
+    rentals[i].price *= 0.9;
+  }
+  console.log(rentals[i].price)
+}
+
+// Step 3
+for(var i = 0; i < rentals.length; i++)
+{
+  var day = new Date(rentals[i].returnDate) - new Date(rentals[i].pickupDate);
+  day /= 24*60*60*1000;
+  day += 1;
+  rentals[i].commission.insurance = rentals[i].price / 2;
+  rentals[i].commission.treasury = day;
+  rentals[i].commission.virtuo = rentals[i].price - rentals[i].commission.insurance - rentals[i].commission.treasury;
+}
+
+// Step 4
+for(var i = 0; i < rentals.length; i++)
+{
+  var day = new Date(rentals[i].returnDate) - new Date(rentals[i].pickupDate);
+  day /= 24*60*60*1000;
+  day += 1;
+  if(rentals[i].options.deductibleReduction == true)
+  {
+    rentals[i].commission.virtuo += 4 * day;
+    rentals[i].price += 4 * day;
+  }
+}
+
+// Step 5
+for(var i = 0; i < actors.length; i++)
+{
+  for(var j = 0; j < rentals.length; j++)
+  {
+    if(actors[i].rentalId = rentals[j].carId)
+    {
+      actors[i].payment[0].amount = rentals[j].price;
+      actors[i].payment[2].amount = rentals[j].commission.insurance;
+      actors[i].payment[3].amount = rentals[j].commission.treasury;
+      actors[i].payment[4].amount = rentals[j].commission.virtuo;
+    }
+  }
+}
 
 console.log(cars);
 console.log(rentals);
