@@ -206,9 +206,9 @@ for(var i = 0; i < rentals.length; i++)
   var day = new Date(rentals[i].returnDate) - new Date(rentals[i].pickupDate);
   day /= 24*60*60*1000;
   day += 1;
-  rentals[i].commission.insurance = rentals[i].price / 2;
+  rentals[i].commission.insurance = rentals[i].price * 0.3 / 2;
   rentals[i].commission.treasury = day;
-  rentals[i].commission.virtuo = rentals[i].price - rentals[i].commission.insurance - rentals[i].commission.treasury;
+  rentals[i].commission.virtuo = rentals[i].price * 0.3 - rentals[i].commission.insurance - rentals[i].commission.treasury;
 }
 
 // Step 4
@@ -232,6 +232,7 @@ for(var i = 0; i < actors.length; i++)
     if(actors[i].rentalId = rentals[j].carId)
     {
       actors[i].payment[0].amount = rentals[j].price;
+      actors[i].payment[1].amount = rentals[j].price * 0.7;
       actors[i].payment[2].amount = rentals[j].commission.insurance;
       actors[i].payment[3].amount = rentals[j].commission.treasury;
       actors[i].payment[4].amount = rentals[j].commission.virtuo;
